@@ -12,43 +12,67 @@ const StepTwoForm = () => {
 
   return (
     <>
-      <Form.Group controlId="emailId">
-        <Form.Label>Email ID</Form.Label>
+      <Form.Group controlId="firstName">
+        <Form.Label>First Name</Form.Label>
         <Form.Control
-          type="email"
-          placeholder="Enter email"
-          {...register('emailId', {
-            required: 'Email ID is required',
+          type="text"
+          placeholder="Enter first name"
+          {...register('firstName', {
+            required: 'First name is required',
+            minLength: {
+              value: 2,
+              message: 'First name must have a minimum length of 2 characters',
+            },
+            maxLength: {
+              value: 50,
+              message: 'First name must have a maximum length of 50 characters',
+            },
             pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Invalid email ID',
+              value: /^[A-Za-z]+$/,
+              message: 'First name must only contain alphabets',
             },
           })}
-          isInvalid={errors.emailId}
+          isInvalid={errors.firstName}
         />
-        {errors.emailId && (
-          <Form.Control.Feedback type="invalid">{errors.emailId.message}</Form.Control.Feedback>
+        {errors.firstName && (
+          <Form.Control.Feedback type="invalid">{errors.firstName.message}</Form.Control.Feedback>
         )}
       </Form.Group>
 
-      <Form.Group controlId="password">
-        <Form.Label>Password</Form.Label>
+      <Form.Group controlId="lastName">
+        <Form.Label>Last Name</Form.Label>
         <Form.Control
-          type="password"
-          placeholder="Enter password"
-          {...register('password', {
-            required: 'Password is required',
+          type="text"
+          placeholder="Enter last name"
+          {...register('lastName', {
             pattern: {
-              value:
-                /^(?=.*[a-z].*[a-z])(?=.*[A-Z].*[A-Z])(?=.*[0-9].*[0-9])(?=.*[^A-Za-z0-9].*[^A-Za-z0-9]).{8,}$/,
-              message:
-                'Password must contain minimum 2 uppercase letters, 2 lowercase letters, 2 numbers, and 2 special characters',
+              value: /^[A-Za-z]+$/,
+              message: 'Last name must only contain alphabets',
             },
           })}
-          isInvalid={errors.password}
+          isInvalid={errors.lastName}
         />
-        {errors.password && (
-          <Form.Control.Feedback type="invalid">{errors.password.message}</Form.Control.Feedback>
+        {errors.lastName && (
+          <Form.Control.Feedback type="invalid">{errors.lastName.message}</Form.Control.Feedback>
+        )}
+      </Form.Group>
+
+      <Form.Group controlId="address">
+        <Form.Label>Address</Form.Label>
+        <Form.Control
+          as="textarea"
+          placeholder="Enter address"
+          {...register('address', {
+            required: 'Address is required',
+            minLength: {
+              value: 10,
+              message: 'Address must have a minimum length of 10 characters',
+            },
+          })}
+          isInvalid={errors.address}
+        />
+        {errors.address && (
+          <Form.Control.Feedback type="invalid">{errors.address.message}</Form.Control.Feedback>
         )}
       </Form.Group>
     </>

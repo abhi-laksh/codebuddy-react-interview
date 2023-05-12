@@ -12,43 +12,56 @@ const StepThreeForm = () => {
 
   return (
     <>
-      <Form.Group controlId="emailId">
-        <Form.Label>Email ID</Form.Label>
+      <Form.Group controlId="countryCode">
+        <Form.Label>Country Code</Form.Label>
         <Form.Control
-          type="email"
-          placeholder="Enter email"
-          {...register('emailId', {
-            required: 'Email ID is required',
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: 'Invalid email ID',
-            },
+          as="select"
+          {...register('countryCode', {
+            required: 'Country code is required',
           })}
-          isInvalid={errors.emailId}
-        />
-        {errors.emailId && (
-          <Form.Control.Feedback type="invalid">{errors.emailId.message}</Form.Control.Feedback>
+          isInvalid={errors.countryCode}
+        >
+          <option value="">Select Country Code</option>
+          <option value="+91">India (+91)</option>
+          <option value="+1">America (+1)</option>
+        </Form.Control>
+        {errors.countryCode && (
+          <Form.Control.Feedback type="invalid">{errors.countryCode.message}</Form.Control.Feedback>
         )}
       </Form.Group>
 
-      <Form.Group controlId="password">
-        <Form.Label>Password</Form.Label>
+      <Form.Group controlId="phoneNumber">
+        <Form.Label>Phone Number</Form.Label>
         <Form.Control
-          type="password"
-          placeholder="Enter password"
-          {...register('password', {
-            required: 'Password is required',
+          type="text"
+          placeholder="Enter phone number"
+          {...register('phoneNumber', {
+            required: 'Phone number is required',
             pattern: {
-              value:
-                /^(?=.*[a-z].*[a-z])(?=.*[A-Z].*[A-Z])(?=.*[0-9].*[0-9])(?=.*[^A-Za-z0-9].*[^A-Za-z0-9]).{8,}$/,
-              message:
-                'Password must contain minimum 2 uppercase letters, 2 lowercase letters, 2 numbers, and 2 special characters',
+              value: /^[0-9]{10}$/,
+              message: 'Phone number must be a 10-digit numeric value',
             },
           })}
-          isInvalid={errors.password}
+          isInvalid={errors.phoneNumber}
         />
-        {errors.password && (
-          <Form.Control.Feedback type="invalid">{errors.password.message}</Form.Control.Feedback>
+        {errors.phoneNumber && (
+          <Form.Control.Feedback type="invalid">{errors.phoneNumber.message}</Form.Control.Feedback>
+        )}
+      </Form.Group>
+
+      <Form.Group controlId="acceptTermsAndCondition">
+        <Form.Check
+          type="checkbox"
+          label="I accept the terms and conditions"
+          {...register('acceptTermsAndCondition', {
+            required: 'Please accept the terms and conditions',
+          })}
+          isInvalid={errors.acceptTermsAndCondition}
+        />
+        {errors.acceptTermsAndCondition && (
+          <Form.Control.Feedback type="invalid">
+            {errors.acceptTermsAndCondition.message}
+          </Form.Control.Feedback>
         )}
       </Form.Group>
     </>

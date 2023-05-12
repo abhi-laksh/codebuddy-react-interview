@@ -1,20 +1,28 @@
 import { useState } from 'react';
 import { Button, Container, Tab, Tabs } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
+import { COMPLETED } from '../../constants/status';
 import StepOneForm from './StepOneForm';
+import StepThreeForm from './StepThreeForm';
+import StepTwoForm from './StepTwoForm';
 
 const MultiStepForm = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const { handleSubmit } = useFormContext();
+  const [currentData, setCurrentData] = useState({});
+  const [formStatusByStep, setFormStatusByStep] = useState({});
+  const { handleSubmit, formState } = useFormContext();
 
   const handleNext = () => {
     setActiveStep(prevStep => prevStep + 1);
     console.log('handleNext', activeStep);
   };
 
-  const handleSave = () => {
+  const handleSave = data => {
     // setActiveStep(prevStep => prevStep + 1);
-    console.log('handleSave', activeStep);
+    setCurrentData(state => ({ ...state, ...data }));
+    setFormStatusByStep(state => ({ ...state, [activeStep]: COMPLETED }));
+
+    alert('Form Saved!');
   };
 
   const handleBack = () => {
@@ -22,7 +30,7 @@ const MultiStepForm = () => {
     console.log('handleBack', activeStep);
   };
 
-  const handleTabChange = index => {
+  const handleTabChange = index => () => {
     setActiveStep(index);
   };
 
@@ -31,17 +39,29 @@ const MultiStepForm = () => {
     console.log(data);
   };
 
+  console.log('ACTIVE', activeStep, formState);
+
   return (
     <Container>
-      <Tabs activeKey={activeStep} onSelect={handleTabChange}>
+      <Tabs
+        activeKey={activeStep}
+        unmountOnExit
+        onSelect={index => {
+          if (index > activeStep) {
+            handleSubmit(handleTabChange(index))();
+          } else {
+            handleTabChange(index)();
+          }
+        }}
+      >
         <Tab eventKey={0} title="Form 1">
           <StepOneForm />
         </Tab>
         <Tab eventKey={1} title="Form 2">
-          {/* <StepOneForm /> */}
+          <StepTwoForm />
         </Tab>
         <Tab eventKey={2} title="Form 3">
-          {/* <StepOneForm /> */}
+          <StepThreeForm />
         </Tab>
       </Tabs>
       <div className="buttons">
@@ -53,10 +73,15 @@ const MultiStepForm = () => {
         >
           Back
         </Button>
-        <Button className="ml-3" variant="primary" onClick={handleSubmit(handleNext)}>
+        <Button className="ml-3" variant="primary" onClick={handleSubmit(handleSave)}>
           Save
         </Button>
-        <Button className="ml-3" variant="primary" onClick={handleSubmit(handleSave)}>
+        <Button
+          className="ml-3"
+          variant="primary"
+          disabled={activeStep >= 2}
+          onClick={handleSubmit(activeStep >= 2 ? onSubmit : handleNext)}
+        >
           Save and Next
         </Button>
       </div>

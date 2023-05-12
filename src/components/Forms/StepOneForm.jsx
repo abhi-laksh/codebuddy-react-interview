@@ -2,13 +2,11 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
 
-const StepOneForm = () => {
+const StepOneForm = ({ updateFormStatus }) => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, dirtyFields },
   } = useFormContext();
-
-  console.log('errors', errors);
 
   return (
     <>
