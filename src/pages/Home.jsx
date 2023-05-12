@@ -1,27 +1,26 @@
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
+import { Form } from 'react-bootstrap';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import MultiStepForm from '../components/Forms/MultiStepForm';
 
 const Home = () => {
+  const methods = useForm();
+
   const navigate = useNavigate();
 
-  const onSubmit = () => navigate('/posts');
+  const onSubmit = data => {
+    // navigate('/posts')
+
+    console.log(data);
+  };
 
   return (
     <main>
-      <div className="bg-light p-5 mb-5">
-        <h1>React + Bootstrap v4</h1>
-        <p>React template with Bootstrap version v4</p>
-        <p>
-          <Button variant="primary">Learn more</Button>
-        </p>
-      </div>
-      <Container>
-        <Form>
-          <Button onClick={onSubmit}>Goto Posts</Button>
+      <FormProvider {...methods}>
+        <Form onSubmit={methods.handleSubmit(onSubmit)}>
+          <MultiStepForm steps />
         </Form>
-      </Container>
+      </FormProvider>
     </main>
   );
 };
