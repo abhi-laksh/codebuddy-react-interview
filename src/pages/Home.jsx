@@ -8,17 +8,15 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = data => {
-    // navigate('/posts')
-
-    console.log(data);
+  const onSuccess = () => {
+    navigate('/posts');
   };
 
   return (
     <main>
       <FormProvider {...methods}>
-        <Form onSubmit={methods.handleSubmit(onSubmit)}>
-          <MultiStepForm steps />
+        <Form>
+          <MultiStepForm onSuccess={onSuccess} />
         </Form>
       </FormProvider>
     </main>
